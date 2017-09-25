@@ -5,7 +5,7 @@ from caesar import rotate_string
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-input_form = """
+form = """
 <!DOCTYPE html>
 
 <html>
@@ -27,14 +27,14 @@ input_form = """
         </style>
     </head>
     <body>
-        <form action='/' method='POST'>
-            <label for="raw_input">
+        <form action='/' method='post'>
+            <label for="user_input">
             Rotate by:
             <input type='text' name='rot' value='0'>
-            <p>
+            <br>
             <textarea name='text'>
             </textarea>
-            <p>
+            <br>
             </input>
             <input type='submit' value='Submit'>
             <br>
@@ -43,17 +43,17 @@ input_form = """
 </html>
 """
 
-@app.route('/')#,methods=['POST'])
-def index():
-    return input_form
-    #form = input_form(request.form)
+@app.route('/', methods=['POST'])
+def encrypt():
+    #user_input = request.form(user-input)
+    rot=int(request.form['rot'])
+    text=request.form['text']
+    enc=rotate_string(text, rot)
+    final="<h1>" + enc + "</h1>"
+    return final
 
-#def encrypt():
-    #form = input_form(request.form)
-    #data = request.form['raw_input']
-    #rot=int(request.form['rot'])
-    #text=request.form['text']
-    #rotate_string(rot, text)
-    #return """<h1>rotate_string()</h1>"""
+@app.route('/')
+def index():
+    return form
 
 app.run()
